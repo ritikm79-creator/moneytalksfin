@@ -55,7 +55,7 @@ function Sky() {
         if (y < 0.) c = mix(vec3(0.02,0.05,0.14), hor*0.3, exp(y*30.));
         gl_FragColor = vec4(c,1.);}`,
   }), []);
-  useFrame(() => { mat.uniforms.uDim.value = shared.dim; });
+  useFrame(() => { mat.uniforms["uDim"]!.value = shared.dim; });
   useEffect(() => () => mat.dispose(), [mat]);
   return <mesh material={mat}><sphereGeometry args={[400, 32, 16]} /></mesh>;
 }
@@ -123,7 +123,7 @@ function Skyline({ tier }: { tier: Tier }) {
     if (ref.current) ref.current.instanceMatrix.needsUpdate = true;
     return () => { geo.dispose(); mat.dispose(); };
   }, [geo, mat]);
-  useFrame(({ clock }) => { mat.uniforms.uTime.value = clock.elapsedTime; mat.uniforms.uDim.value = shared.dim; });
+  useFrame(({ clock }) => { mat.uniforms["uTime"]!.value = clock.elapsedTime; mat.uniforms["uDim"]!.value = shared.dim; });
   return <instancedMesh ref={ref} args={[geo, mat, count]} frustumCulled={false} />;
 }
 
@@ -149,7 +149,7 @@ function Water() {
         gl_FragColor = vec4(col*mix(0.5,1.,uDim),1.);
       }`,
   }), []);
-  useFrame(({ clock }) => { mat.uniforms.uTime.value = clock.elapsedTime; mat.uniforms.uDim.value = shared.dim; });
+  useFrame(({ clock }) => { mat.uniforms["uTime"]!.value = clock.elapsedTime; mat.uniforms["uDim"]!.value = shared.dim; });
   useEffect(() => () => mat.dispose(), [mat]);
   return <mesh material={mat} rotation-x={-Math.PI / 2} position={[0, 0, -10]}><planeGeometry args={[400, 140]} /></mesh>;
 }
@@ -186,7 +186,7 @@ function HeroGroup() {
   useEffect(() => () => panelMat.dispose(), [panelMat]);
   useFrame(({ clock, pointer }) => {
     const t = clock.elapsedTime;
-    panelMat.uniforms.uTime.value = t;
+    panelMat.uniforms["uTime"]!.value = t;
     const portrait = size.width < size.height;
     if (g.current) {
       const fade = Math.max(0, 1 - shared.progress * 9);
@@ -255,7 +255,7 @@ function Particles({ tier }: { tier: Tier }) {
     return { geo: g, mat: m };
   }, [n]);
   useEffect(() => () => { geo.dispose(); mat.dispose(); }, [geo, mat]);
-  useFrame(({ clock }) => { mat.uniforms.uTime.value = clock.elapsedTime; });
+  useFrame(({ clock }) => { mat.uniforms["uTime"]!.value = clock.elapsedTime; });
   return <points geometry={geo} material={mat} />;
 }
 
@@ -270,7 +270,7 @@ function Pathway() {
       vec3 c = mix(vec3(0.3,0.7,1.), vec3(1.,.8,.4), step(0.97, fract(vUv.x*4.))); gl_FragColor = vec4(c, on*0.9); }`,
   }), []);
   useEffect(() => () => mat.dispose(), [mat]);
-  useFrame(() => { mat.uniforms.uP.value = Math.min(1, Math.max(0, (shared.progress - 0.66) / 0.1)); });
+  useFrame(() => { mat.uniforms["uP"]!.value = Math.min(1, Math.max(0, (shared.progress - 0.66) / 0.1)); });
   return <mesh ref={ref} material={mat}><tubeGeometry args={[curve, 120, 0.08, 6, false]} /></mesh>;
 }
 
