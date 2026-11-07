@@ -18,18 +18,18 @@ export type Tier = "high" | "medium" | "low";
 
 /* Scroll keyframes: camera is a pure function of page progress (reversible). */
 const KEYS: { p: number; pos: [number, number, number]; look: [number, number, number]; dim: number }[] = [
-  { p: 0.0, pos: [0, 2.2, 20], look: [0, 6, -20], dim: 1 },
+  { p: 0.0, pos: [0, 2.6, 20], look: [0, 7, -40], dim: 1 },
   { p: 0.14, pos: [0, 8, 12], look: [0, 6, -30], dim: 0.9 },
   { p: 0.45, pos: [0, 16, 6], look: [0, 18, -30], dim: 0.75 },
   { p: 0.62, pos: [0, 20, 2], look: [0, 26, -30], dim: 0.7 },
   { p: 0.75, pos: [0, 4, 14], look: [0, 2, -40], dim: 0.8 },
   { p: 0.88, pos: [0, 6, 18], look: [0, 6, -20], dim: 0.45 },
-  { p: 1.0, pos: [0, 2.4, 22], look: [0, 6, -20], dim: 1 },
+  { p: 1.0, pos: [0, 2.6, 22], look: [0, 7, -40], dim: 1 },
 ];
 export function sampleTimeline(p: number) {
   let i = 0;
-  while (i < KEYS.length - 2 && p > KEYS[i + 1].p) i++;
-  const a = KEYS[i], b = KEYS[i + 1];
+  while (i < KEYS.length - 2 && p > KEYS[i + 1]!.p) i++;
+  const a = KEYS[i]!, b = KEYS[i + 1]!;
   const t = ease(Math.min(1, Math.max(0, (p - a.p) / (b.p - a.p))));
   return {
     pos: a.pos.map((v, k) => lerp(v, b.pos[k], t)) as [number, number, number],
@@ -72,8 +72,8 @@ function Skyline({ tier }: { tier: Tier }) {
     const layers = tier === "low" ? 3 : 4;
     for (let i = 0; i < count; i++) {
       const layer = i % layers;
-      const z = -30 - layer * 18 - rnd() * 8;
-      const x = (rnd() - 0.5) * (90 + layer * 50);
+      const z = -55 - layer * 22 - rnd() * 10;
+      const x = (rnd() - 0.5) * (140 + layer * 70);
       const centre = Math.exp(-(x * x) / 900);
       let h = 4 + rnd() * 10 + centre * 22 * rnd() + layer * 4;
       if (x < -14 && x > -40 && layer === 0) h += 10 + rnd() * 10; // tall framing towers left
@@ -137,7 +137,7 @@ function Water() {
       float h(float x){ return fract(sin(x*12.9898)*43758.5453); }
       float n(float x){ float i=floor(x), f=fract(x); return mix(h(i),h(i+1.),f*f*(3.-2.*f)); }
       void main(){
-        float dist = clamp((-vW.z + 30.)/90., 0., 1.);
+        float dist = clamp((-vW.z + 20.)/75., 0., 1.);
         float rip = sin(vW.z*1.3 + uTime*0.8)*0.35 + sin(vW.z*3.1 - uTime*0.6)*0.15;
         float x = vW.x*1.4 + rip;
         float streak = pow(n(x), 6.) * 1.6 + pow(n(x*0.37+5.),10.)*1.2;
@@ -151,7 +151,7 @@ function Water() {
   }), []);
   useFrame(({ clock }) => { mat.uniforms["uTime"]!.value = clock.elapsedTime; mat.uniforms["uDim"]!.value = shared.dim; });
   useEffect(() => () => mat.dispose(), [mat]);
-  return <mesh material={mat} rotation-x={-Math.PI / 2} position={[0, 0, -10]}><planeGeometry args={[400, 140]} /></mesh>;
+  return <mesh material={mat} rotation-x={-Math.PI / 2} position={[0, 0, -20]}><planeGeometry args={[500, 160]} /></mesh>;
 }
 
 /* ---------- Hero ring + hologram panel ---------- */

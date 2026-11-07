@@ -30,7 +30,7 @@ const configSchema = z.object({
   legal: z.object({ updated: z.string(), jurisdiction: z.string(), reviewed: z.boolean() }),
 });
 
-const rawWa = (import.meta.env.VITE_WHATSAPP_NUMBER as string | undefined) ?? "";
+const rawWa = (import.meta.env["VITE_WHATSAPP_NUMBER"] as string | undefined) ?? "";
 
 export const siteConfig = configSchema.parse({
   business: { name: "", tagline: "", location: "", mission: "" },
@@ -39,8 +39,8 @@ export const siteConfig = configSchema.parse({
   team: [],
   registrations: [],
   form: {
-    provider: ((import.meta.env.VITE_FORM_PROVIDER as string | undefined) ?? "none") as "none",
-    endpoint: (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) ?? "",
+    provider: ((import.meta.env["VITE_FORM_PROVIDER"] as string | undefined) ?? "none") as "none",
+    endpoint: (import.meta.env["VITE_FORM_ENDPOINT"] as string | undefined) ?? "",
   },
   legal: { updated: "", jurisdiction: "", reviewed: false },
 });

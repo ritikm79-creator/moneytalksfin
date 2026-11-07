@@ -44,7 +44,7 @@ const steps = [
   ["Discuss", "Discuss your requirements and receive relevant information about the selected service."],
 ];
 // constellation node positions (%), desktop
-const nodes = [[12, 30], [36, 70], [52, 18], [70, 62], [88, 28]];
+const nodes: [number, number][] = [[12, 30], [36, 70], [52, 18], [70, 62], [88, 28]];
 
 function Home() {
   const [paused, setPaused] = useState(false);
@@ -123,7 +123,7 @@ function Home() {
               </svg>
               <ol className="contents">
                 {values.map(([t, d], i) => (
-                  <li key={t} tabIndex={0} className="group absolute w-56 -translate-x-1/2 -translate-y-3 text-center" style={{ left: `${nodes[i][0]}%`, top: `${nodes[i][1]}%` }}>
+                  <li key={t} tabIndex={0} className="group absolute w-56 -translate-x-1/2 -translate-y-3 text-center" style={{ left: `${nodes[i]?.[0]}%`, top: `${nodes[i]?.[1]}%` }}>
                     <span aria-hidden="true" className="mx-auto block h-5 w-5 rounded-full bg-gold shadow-[var(--shadow-gold)] ring-4 ring-cyan/30 animate-breathe" />
                     <h3 className="mt-3 text-sm font-semibold tracking-widest text-ice">{t}</h3>
                     <p className="mt-1 text-sm text-silver">{d}</p>

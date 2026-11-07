@@ -40,6 +40,7 @@ export function SceneLayer({ paused }: { paused: boolean }) {
         </div>
       )}
       <div className="pointer-events-none absolute inset-0 bg-scrim-left" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night/90 to-transparent md:hidden" />
     </div>
   );
 }
