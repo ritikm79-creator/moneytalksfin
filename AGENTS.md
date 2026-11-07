@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- All business facts live in `src/config/siteConfig.ts`; empty values must hide their UI (never invent credentials, numbers or contacts).
+- The 3D scene (`src/scene/Experience.tsx`) is lazy-loaded behind the SVG `Poster`; camera is a pure function of scroll progress (`sampleTimeline`) so scrolling back restores state.
+- WhatsApp links only via `buildWhatsAppUrl`; it returns null when unconfigured so buttons hide.
