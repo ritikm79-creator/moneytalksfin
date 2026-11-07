@@ -32,8 +32,8 @@ export function sampleTimeline(p: number) {
   const a = KEYS[i]!, b = KEYS[i + 1]!;
   const t = ease(Math.min(1, Math.max(0, (p - a.p) / (b.p - a.p))));
   return {
-    pos: a.pos.map((v, k) => lerp(v, b.pos[k], t)) as [number, number, number],
-    look: a.look.map((v, k) => lerp(v, b.look[k], t)) as [number, number, number],
+    pos: a.pos.map((v, k) => lerp(v, b.pos[k] ?? v, t)) as [number, number, number],
+    look: a.look.map((v, k) => lerp(v, b.look[k] ?? v, t)) as [number, number, number],
     dim: lerp(a.dim, b.dim, t),
   };
 }
@@ -114,11 +114,11 @@ function Skyline({ tier }: { tier: Tier }) {
           gl_FragColor = vec4(col*mix(0.55,1.,uDim),1.);
         }`,
     });
-    g.userData.mats = mats;
+    g.userData["mats"] = mats;
     return { geo: g, mat: m };
   }, [count, tier]);
   useEffect(() => {
-    const mats = geo.userData.mats as THREE.Matrix4[];
+    const mats = geo.userData["mats"] as THREE.Matrix4[];
     mats.forEach((m, i) => ref.current?.setMatrixAt(i, m));
     if (ref.current) ref.current.instanceMatrix.needsUpdate = true;
     return () => { geo.dispose(); mat.dispose(); };
