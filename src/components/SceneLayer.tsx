@@ -5,7 +5,12 @@ import type { Tier } from "@/scene/Experience";
 const Experience = lazy(() => import("@/scene/Experience"));
 
 function hasWebGL() {
-  try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
+  try {
+    const c = document.createElement("canvas");
+    return !!(c.getContext("webgl2") || c.getContext("webgl"));
+  } catch {
+    return false;
+  }
 }
 function pickTier(): Tier {
   const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
@@ -24,7 +29,10 @@ export function SceneLayer({ paused }: { paused: boolean }) {
   useEffect(() => {
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setReduced(rm);
-    if (hasWebGL() && !rm) { setTier(pickTier()); setMode("3d"); }
+    if (hasWebGL() && !rm) {
+      setTier(pickTier());
+      setMode("3d");
+    }
     const v = () => setHidden(document.hidden);
     document.addEventListener("visibilitychange", v);
     return () => document.removeEventListener("visibilitychange", v);
@@ -33,9 +41,17 @@ export function SceneLayer({ paused }: { paused: boolean }) {
     <div className="fixed inset-0 z-0" aria-hidden="true">
       <Poster />
       {mode === "3d" && (
-        <div className={`absolute inset-0 transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"}`} data-scene-ready={ready || undefined}>
+        <div
+          className={`absolute inset-0 transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"}`}
+          data-scene-ready={ready || undefined}
+        >
           <Suspense fallback={null}>
-            <Experience tier={tier} paused={paused || hidden} reduced={reduced} onReady={() => setReady(true)} />
+            <Experience
+              tier={tier}
+              paused={paused || hidden}
+              reduced={reduced}
+              onReady={() => setReady(true)}
+            />
           </Suspense>
         </div>
       )}
