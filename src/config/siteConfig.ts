@@ -50,8 +50,8 @@ const configSchema = z.object({
 const rawWa = (import.meta.env["VITE_WHATSAPP_NUMBER"] as string | undefined) ?? "";
 
 export const siteConfig = configSchema.parse({
-  business: { name: "", tagline: "", location: "", mission: "" },
-  contact: { whatsappNumber: rawWa.replace(/\D/g, ""), email: "", phone: "" },
+  business: { name: "Money Talks", tagline: "", location: "", mission: "" },
+  contact: { whatsappNumber: "919099537935", email: "", phone: "" },
   social: { linkedin: "", instagram: "", youtube: "", facebook: "", x: "", telegram: "" },
   team: [],
   registrations: [],
